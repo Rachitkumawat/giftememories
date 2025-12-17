@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gift-e-Memories</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">🎁 Gift-e-<span>Memories</span></div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="admin.html">shop</a></li>
+        <li><a href="admin prodect.html">product</a></li>
+        <li><a href="track-order.html">Account</a></li>
+        <li class="cart-wrapper">
+          <a href="cart.html" id="cart-toggle">🛒 <span id="cart-count">0</span></a>
+          <div class="mini-cart" id="mini-cart">
+            <div class="mini-cart-items" id="mini-cart-items"></div>
+            <p id="mini-cart-total">Total: ₹0</p>
+            <a href="cart.html"><button>View Cart</button></a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Handcrafted Memories, Delivered with Love</h1>
+      <p>Unique Personalized Gifts for Every Occasion!</p>
+      <button>Shop Now</button>
+      <button onclick="window.location.href='customize.html'">Customize Your Gift</button>
+    </div>
+    <div class="hero-image">
+      <img src="mug.jpeg" alt="Personalized Mug">
+    </div>
+  </section>
+
+  <section class="search">
+    <input type="text" placeholder="Search gifts..." class="search-bar" id="searchBar">
+  </section>
+
+  <section class="categories">
+    <h2>Featured Categories</h2>
+    <div class="category-list">
+      <div class="category" data-category="Mugs">Mugs</div>
+      <div class="category" data-category="LED Frames">LED Frames</div>
+      <div class="category" data-category="Collage Frames">Collage Frames</div>
+    </div>
+  </section>
+
+  <section class="occasions">
+    <h2>Gift by Occasion</h2>
+    <button data-occasion="Birthday">Birthday</button>
+    <button data-occasion="Anniversary">Anniversary</button>
+    <button data-occasion="Friendship">Friendship</button>
+    <button data-occasion="Custom">Custom</button>
+  </section>
+
+  <section class="products">
+    <h2>Popular Products</h2>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="admin.html">shop</a></li>
+          <li><a href="track-order.html">Track Order</a></li>
+          <li><a href="customize.html">Customize Gift</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Categories</h4>
+        <ul>
+          <li><a href="#">Mugs</a></li>
+          <li><a href="#">LED Frames</a></li>
+          <li><a href="#">Collage Frames</a></li>
+          <li><a href="#">Anniversary Gifts</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <form>
+          <input type="email" placeholder="Your email">
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <p class="copyright">&copy; 2025 Gift-e-Memories. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
