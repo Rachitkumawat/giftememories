@@ -2,95 +2,247 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Dashboard - Order</title>
-  
-    <style>
-    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    th { background: #f4f4f4; }
-    button { padding: 5px 10px; margin: 2px; cursor: pointer; }
-    button:hover {transform: translateY(-3px); 
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);}
+  <title>Admin Dashboard - Orders</title>
+
+  <!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* ===== GLOBAL ===== */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 15px;
+      color: #333;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    /* ===== SEARCH BAR ===== */
+    .search-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      padding: 10px;
+      width: 260px;
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 0.95rem;
+    }
+
+    .search-box button {
+      padding: 10px 16px;
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .search-box button:hover {
+      background: #125aa0;
+    }
+
+    /* ===== TABLE WRAPPER ===== */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 900px;
+      border-collapse: collapse;
+      background: #fff;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    th, td {
+      border-bottom: 1px solid #e0e0e0;
+      padding: 12px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: #f4f4f4;
+      font-weight: bold;
+    }
+
+    tr:hover {
+      background: #fafafa;
+    }
+
+    /* ===== STATUS TAG ===== */
+    .status {
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .pending { background: #fff3cd; color: #856404; }
+    .completed { background: #d4edda; color: #155724; }
+    .cancelled { background: #f8d7da; color: #721c24; }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.2rem;
+      }
+
+      body {
+        padding: 10px;
+      }
+
+      table {
+        min-width: 700px;
+      }
+
+      th, td {
+        padding: 10px;
+        font-size: 0.9rem;
+      }
+
+      .search-box {
+        gap: 8px;
+      }
+
+      .search-box button {
+        width: 100%;
+      }
+    }
+
+    /* ===== TABLET ===== */
+    @media (min-width: 600px) and (max-width: 900px) {
+      table {
+        min-width: 800px;
+      }
+    }
   </style>
-
-  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <h1 style="text-align:center; margin: 20px;">📊 Admin Dashboard</h1>
 
-<!-- 02 -->
+  <h1>📊 Admin Dashboard</h1>
+  <h2>📋 Orders List</h2>
 
- <h2>📋 Orders List</h2>
-<input type="text" id="searchOrderId" placeholder="Search by Order ID">
-<button onclick="searchOrder()">Search</button>
+  <div class="search-box">
+    <input type="text" id="searchOrderId" placeholder="Search by Order ID">
+    <button onclick="searchOrder()">Search</button>
+  </div>
 
-<table>
-    <thead>
-      <tr>
-        <th>Order ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Payment</th>
-        <th>Status</th>
-        <th>Update</th>
-      </tr>
-    </thead>
-    <tbody id="ordersTable"></tbody>
-  </table>
-
-<script>
-async function loadOrders() {
-  const res = await fetch("http://localhost:3000/api/orders/all"); // needs backend route for all orders
-  const data = await res.json();
-
-  if (data.success) {
-    const table = document.getElementById("ordersTable");
-    table.innerHTML = "";
-    data.orders.forEach(order => {
-      table.innerHTML += `
+  <div class="table-container">
+    <table>
+      <thead>
         <tr>
-          <td>${order.orderId}</td>
-          <td>${order.name}</td>
-          <td>${order.email}</td>
-          <td>${order.status}</td>
-          <td>${order.items.map(i => i.name + " x " + i.quantity).join(", ")}</td>
+          <th>Order ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Payment</th>
+          <th>Status</th>
+          <th>Update</th>
         </tr>
-      `;
-    });
-  }
-}
+      </thead>
+      <tbody id="ordersTable"></tbody>
+    </table>
+  </div>
 
-async function searchOrder() {
-  const orderId = document.getElementById("searchOrderId").value;
-  if (!orderId) return;
+  <script>
+    async function loadOrders() {
+      const res = await fetch("http://localhost:3000/api/orders/all");
+      const data = await res.json();
 
-  const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
-  const data = await res.json();
+      if (data.success) {
+        const table = document.getElementById("ordersTable");
+        table.innerHTML = "";
 
-  const table = document.getElementById("ordersTable");
-  table.innerHTML = "";
+        data.orders.forEach(order => {
+          table.innerHTML += `
+            <tr>
+              <td>${order.orderId}</td>
+              <td>${order.name}</td>
+              <td>${order.email}</td>
+              <td>${order.address || 'N/A'}</td>
+              <td>${order.payment || 'COD'}</td>
+              <td>
+                <span class="status ${order.status.toLowerCase()}">
+                  ${order.status}
+                </span>
+              </td>
+              <td>
+                ${order.items.map(i => i.name + " x " + i.quantity).join(", ")}
+              </td>
+            </tr>
+          `;
+        });
+      }
+    }
 
-  if (data.success) {
-    const o = data.order;
-    table.innerHTML = `
-      <tr>
-        <td>${o.orderId}</td>
-        <td>${o.name}</td>
-        <td>${o.email}</td>
-        <td>${o.status}</td>
-        <td>${o.items.map(i => i.name + " x " + i.quantity).join(", ")}</td>
-      </tr>
-    `;
-  } else {
-    table.innerHTML = "<tr><td colspan='5'>❌ Order not found</td></tr>";
-  }
-}
+    async function searchOrder() {
+      const orderId = document.getElementById("searchOrderId").value;
+      if (!orderId) return;
 
-loadOrders();
-</script>
+      const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+      const data = await res.json();
 
-<script type="module" src="admin.js"></script>
+      const table = document.getElementById("ordersTable");
+      table.innerHTML = "";
+
+      if (data.success) {
+        const o = data.order;
+        table.innerHTML = `
+          <tr>
+            <td>${o.orderId}</td>
+            <td>${o.name}</td>
+            <td>${o.email}</td>
+            <td>${o.address || 'N/A'}</td>
+            <td>${o.payment || 'COD'}</td>
+            <td>
+              <span class="status ${o.status.toLowerCase()}">
+                ${o.status}
+              </span>
+            </td>
+            <td>
+              ${o.items.map(i => i.name + " x " + i.quantity).join(", ")}
+            </td>
+          </tr>
+        `;
+      } else {
+        table.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center;">
+              ❌ Order not found
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    loadOrders();
+  </script>
 
 </body>
 </html>
