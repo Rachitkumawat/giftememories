@@ -1,0 +1,82 @@
+ [
+  {
+    "id": 1,
+    "name": "Custom Mug",
+    "category": "Mugs",
+    "price": 299,
+    "image": "mug.jpeg",
+    "description": "Personalized ceramic mug with custom photo and message."
+  },
+  {
+    "id": 2,
+    "name": "LED Photo Frame",
+    "category": "LED Frames",
+    "price": 599,
+    "image": "led.jpeg",
+    "description": "Elegant LED photo frame perfect for gifting."
+  },
+  {
+    "id": 3,
+    "name": "Collage Frame",
+    "category": "Collage Frames",
+    "price": 499,
+    "image": "collage.jpeg",
+    "description": "Memory collage with 6 customizable photo slots."  
+  },
+  {
+    "id": 4,
+    "name": "Anniversary Gift Mug",
+    "category": "Mugs",
+    "price": 349,
+    "image": "Anniversary-Gift-Mug.jpeg",
+    "description": "A special mug for your anniversary celebration."
+  },
+  {
+    "id": 5,
+    "name": "Mini frame",
+    "category": "Collage Frames",
+    "price": 399,
+    "image": "frame.jpeg",
+    "description": "A special mug for your anniversary celebration."
+  },
+  {
+    "id": 6,
+    "name": "MOM",
+    "category": "Mugs",
+    "price": 349,
+    "image": "mom.jpeg",
+    "description": "A special mug for your happy mother's day celebration."
+  },
+  {
+    "id": 7,
+    "name": "Partner",
+    "category": "Collage Frames",
+    "price": 549,
+    "image": "partner.jpeg",
+    "description": "A special collage frame for your happy moments celebration."
+  },
+   {
+    "id": 8,
+    "name": "Birthday special",
+    "category": "LED Frames",
+    "price": 599,
+    "image": "Birthday special.jpeg",
+    "description": "A special led collage frame for your happy moments celebration."
+  },
+  {
+    "id": 9,
+    "name": "poki mugs",
+    "category": "Mugs",
+    "price": 349,
+    "image": "poki mugs.jpeg",
+    "description": "A special mug for your special day celebration."
+  },
+  {
+    "id": 10,
+    "name": "bestie",
+    "category": "Collage Frames",
+    "price": 449,
+    "image": "bestie.jpeg",
+    "description": "A special collage frame for your happy moments with close friend celebration."
+  }
+]
