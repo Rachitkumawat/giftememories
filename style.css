@@ -399,3 +399,61 @@ input, textarea, select {
     width: 100%;
   }
 }
+      
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Nav Menu for Desktop */
+nav ul {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+
+/* ================= MEDIA QUERIES ================= */
+@media (max-width: 768px) {
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: block;
+  }
+
+  nav {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #e0d6cf;
+    display: none; /* hide initially */
+    flex-direction: column;
+    z-index: 100;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  nav ul li {
+    border-bottom: 1px solid #eee;
+  }
+
+  nav ul li a {
+    display: block;
+    padding: 12px 20px;
+  }
+
+  nav.active {
+    display: flex;
+  }
+
+  header {
+    position: relative;
+  }
+}
