@@ -1,61 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Track Order - Gift-e-Memories</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      padding: 20px;
-    }
-    .container {
-      max-width: 500px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background: #ff7f50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #e5673e;
-      transform: translateY(-3px); 
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-    }
-    .order-details {
-      margin-top: 20px;
-      padding: 15px;
-      background: #f1f1f1;
-      border-radius: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Order - Gift-e-Memories</title>
+
+<style>
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ================= BODY ================= */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(135deg, #fff3ec, #f9f9f9);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* ================= CONTAINER ================= */
+.container {
+  width: 100%;
+  max-width: 520px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+/* ================= HEADING ================= */
+.container h2 {
+  text-align: center;
+  color: #ff7f50;
+  margin-bottom: 20px;
+}
+
+/* ================= FORM ================= */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+input {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #ff7f50;
+  box-shadow: 0 0 0 2px rgba(255,127,80,0.2);
+}
+
+/* ================= BUTTON ================= */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background: #ff7f50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #e5673e;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ================= RESULT ================= */
+#result {
+  margin-top: 20px;
+}
+
+/* ================= ORDER DETAILS ================= */
+.order-details {
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 14.5px;
+}
+
+.order-details b {
+  color: #333;
+}
+
+.order-details ul {
+  margin-top: 8px;
+  padding-left: 18px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 480px) {
+  .container {
+    padding: 18px;
+  }
+
+  input, button {
+    font-size: 14px;
+    padding: 11px;
+  }
+
+  .order-details {
+    font-size: 14px;
+  }
+}
+</style>
 </head>
+
 <body>
-  <div class="container">
-    <h2>📦 Track Your Order</h2>
-    <form id="trackForm">
-      <input type="text" id="orderId" placeholder="Enter your Order ID" required>
-      <button type="submit">Track</button>
-    </form>
 
-    <div id="result"></div>
-  </div>
+<div class="container">
+  <h2>📦 Track Your Order</h2>
 
-  <script>
+  <form id="trackForm">
+    <input type="text" id="orderId" placeholder="Enter your Order ID" required>
+    <button type="submit">Track Order</button>
+  </form>
+
+  <div id="result"></div>
+</div>
+
+<script>
 document.getElementById("trackForm").addEventListener("submit", async function(e) {
   e.preventDefault();
 
@@ -70,17 +150,19 @@ document.getElementById("trackForm").addEventListener("submit", async function(e
     if (data.success) {
       const order = data.order;
       resultDiv.innerHTML = `
-        ✅ Order Found <br>
-        <b>Order ID:</b> ${order.orderId} <br>
-        <b>Name:</b> ${order.name} <br>
-        <b>Email:</b> ${order.email} <br>
-        <b>Address:</b> ${order.address} <br>
-        <b>Payment:</b> ${order.payment} <br>
-        <b>Status:</b> ${order.status} <br>
-        <b>Items:</b>
-        <ul>
-          ${order.items.map(i => `<li>${i.name} - ${i.quantity} x ₹${i.price}</li>`).join("")}
-        </ul>
+        <div class="order-details">
+          ✅ <b>Order Found</b><br><br>
+          <b>Order ID:</b> ${order.orderId}<br>
+          <b>Name:</b> ${order.name}<br>
+          <b>Email:</b> ${order.email}<br>
+          <b>Address:</b> ${order.address}<br>
+          <b>Payment:</b> ${order.payment}<br>
+          <b>Status:</b> ${order.status}<br><br>
+          <b>Items:</b>
+          <ul>
+            ${order.items.map(i => `<li>${i.name} — ${i.quantity} × ₹${i.price}</li>`).join("")}
+          </ul>
+        </div>
       `;
     } else {
       resultDiv.innerHTML = "❌ Order not found";
@@ -91,12 +173,13 @@ document.getElementById("trackForm").addEventListener("submit", async function(e
   }
 });
 
-// Auto-fill from URL
+/* Auto-fill from URL */
 const params = new URLSearchParams(window.location.search);
 if (params.get("orderId")) {
   document.getElementById("orderId").value = params.get("orderId");
   document.getElementById("trackForm").dispatchEvent(new Event("submit"));
 }
-  </script>
+</script>
+
 </body>
 </html>
