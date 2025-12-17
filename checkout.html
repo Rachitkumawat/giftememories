@@ -3,23 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <title>Gift-e-Memories - Checkout</title>
+
+  <!-- Responsive Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
   <style>
+    /* ===== GLOBAL ===== */
     body {
       background-color: #fffaf5;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 40px 20px;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      min-height: 100vh;
+      align-items: center;
     }
 
+    /* ===== CHECKOUT CARD ===== */
     .checkout-container {
       background: #ffffff;
-      border-radius: 12px;
-      padding: 30px 40px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
       max-width: 450px;
       width: 100%;
     }
@@ -27,203 +36,179 @@
     h2 {
       text-align: center;
       color: #b76e58;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
     }
 
+    /* ===== FORM ===== */
     label {
       font-weight: 600;
       color: #333;
+      font-size: 0.95rem;
     }
 
     input, textarea, select {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 6px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       border-radius: 8px;
       border: 1px solid #ddd;
       box-sizing: border-box;
-      font-size: 15px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
     }
 
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #b76e58;
+      box-shadow: 0 0 0 2px rgba(183,110,88,0.2);
+    }
+
+    /* ===== BUTTON ===== */
     button {
       background-color: #b76e58;
       color: #fff;
-      padding: 12px;
+      padding: 14px;
       border: none;
       border-radius: 8px;
       width: 100%;
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: all 0.3s ease;
     }
 
     button:hover {
       background-color: #a25e4c;
-      transform: translateY(-3px); 
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
     }
 
-  
+    /* ===== CONFIRMATION BOX ===== */
+    #confirmation {
+      margin-top: 20px;
+      background: #f4fdf7;
+      border: 1px solid #cde9d6;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    #confirmation a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #b76e58;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+        align-items: flex-start;
+      }
+
+      .checkout-container {
+        padding: 22px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      input, textarea, select {
+        font-size: 0.9rem;
+        padding: 11px;
+      }
+
+      button {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ===== TABLET ===== */
+    @media (min-width: 600px) and (max-width: 900px) {
+      .checkout-container {
+        max-width: 500px;
+      }
+    }
+
+    /* ===== LARGE SCREENS ===== */
+    @media (min-width: 1200px) {
+      .checkout-container {
+        max-width: 480px;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <form id="orderForm">
-  <input type="text" id="name" placeholder="Name" required>
-  <input type="email" id="email" placeholder="Email" required>
-  <input type="text" id="address" placeholder="Address" required>
-  <select id="payment">
-    <option value="COD">Cash on Delivery</option>
-    <option value="Prepaid">Prepaid</option>
-  </select>
-  <button type="submit">Place Order</button>
-</form>
 
-<div id="confirmation"></div>
+  <div class="checkout-container">
+    <h2>🧾 Checkout</h2>
 
-<script>
-document.getElementById("orderForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+    <form id="orderForm">
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <textarea id="address" placeholder="Delivery Address" rows="3" required></textarea>
 
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const address = document.getElementById("address").value;
-  const payment = document.getElementById("payment").value;
+      <select id="payment">
+        <option value="COD">Cash on Delivery</option>
+        <option value="Prepaid">Prepaid</option>
+      </select>
 
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      <button type="submit">Place Order</button>
+    </form>
 
-  const orderData = { name, email, address, payment, items: cart };
+    <div id="confirmation"></div>
+  </div>
 
-  try {
-    const res = await fetch("http://localhost:3000/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData)
-    });
+  <!-- ===== ORDER SCRIPT ===== -->
+  <script>
+    document.getElementById("orderForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
 
-    const data = await res.json();
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const address = document.getElementById("address").value;
+      const payment = document.getElementById("payment").value;
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    if (data.success) {
-      localStorage.removeItem("cart");
-      document.getElementById("confirmation").style.display = "block";
-      document.getElementById("confirmation").innerHTML = `
-        <h3>✅ Order placed successfully!</h3>
-        <p><b>Your Order ID:</b> ${data.orderId}</p>
-        <p>Keep this ID safe for tracking your order.</p>
-        <a href="track-order.html?orderId=${data.orderId}">📦 Track Your Order</a>
-      `;
-    } else {
-      alert("❌ Failed to place order.");
-    }
-  } catch (err) {
-    console.error("Error:", err);
-    alert("⚠️ Something went wrong.");
-  }
-});
-</script>
+      const orderData = { name, email, address, payment, items: cart };
 
- <!-- mail -->
+      try {
+        const res = await fetch("http://localhost:3000/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData)
+        });
 
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  (function(){
-    emailjs.init("tBEXVGc8gCPNAvvB7"); // yaha apna public key daalo
-  })();
+        const data = await res.json();
 
-  document.getElementById("orderForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
+        if (data.success) {
+          localStorage.removeItem("cart");
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const address = document.getElementById("address").value;
-    const payment = document.getElementById("payment").value;
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-    const orderData = { name, email, address, payment, items: cart };
-
-    // Backend call to save order
-    const res = await fetch("http://localhost:3000/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(orderData)
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      // ✅ Yaha EmailJS ko call karo
-      emailjs.send("service_nu5tyia", "template_t4q3syr", {
-        to_email: email,
-        user_name: name,
-        user_address: address,
-        payment_method: payment,
-        order_id: data.orderId,
-        items: cart.map(i => `${i.name} (${i.quantity} × ₹${i.price})`).join(", ")
-      }).then(
-        function(response) {
-          console.log("✅ Customer email sent!", response.status, response.text);
-        },
-        function(error) {
-          console.error("❌ FAILED to send email...", error);
+          const confirmation = document.getElementById("confirmation");
+          confirmation.style.display = "block";
+          confirmation.innerHTML = `
+            <h3>✅ Order placed successfully!</h3>
+            <p><b>Your Order ID:</b> ${data.orderId}</p>
+            <a href="track-order.html?orderId=${data.orderId}">📦 Track Your Order</a>
+          `;
+        } else {
+          alert("❌ Failed to place order.");
         }
-      );
+      } catch (err) {
+        console.error(err);
+        alert("⚠️ Something went wrong.");
+      }
+    });
+  </script>
 
-      // Admin ko email      
-      emailjs.send("service_nu5tyia", "template_b75y75r", {
-        to_email: "giftememories@gmail.com",
-        user_name: name,
-        user_email: email,
-        order_id: data.orderId,
-        items: cart.map(i => `${i.name} (${i.quantity} × ₹${i.price})`).join(", ")
-      });
-
-      localStorage.removeItem("cart");
-      alert(`✅ Order placed! Order ID: ${data.orderId}`);
-    }
-  });
-</script>
-
-
-<!-- ************************************************************************************** -->
-
-<!-- <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>
-  (function(){
-    emailjs.init("tBEXVGc8gCPNAvvB7"); // apna public key daalo
-  })();
-
-  async function sendEmails(order) {
-    // ✅ Admin ko mail
-    emailjs.send("service_nu5tyia", "template_t4q3syr", {
-      user_name: order.name,
-      user_email: order.email,
-      user_address: order.address,
-      payment_method: order.payment,
-      order_id: order.orderId,
-      items: order.items.map(i => `${i.name} (${i.quantity} × ₹${i.price})`).join(", "),
-      to_email: "youradmin@gmail.com" // admin fixed email
-    }).then(
-      res => console.log("✅ Admin email sent", res),
-      err => console.error("❌ Admin email failed", err)
-    );
-
-    // ✅ Customer ko mail
-    emailjs.send("service_nu5tyia", "template_b75y75r", {
-      user_name: order.name,
-      user_email: order.email,
-      user_address: order.address,
-      payment_method: order.payment,
-      order_id: order.orderId,
-      items: order.items.map(i => `${i.name} (${i.quantity} × ₹${i.price})`).join(", "),
-      to_email: order.email // customer ka email
-    }).then(
-      res => console.log("✅ Customer email sent", res),
-      err => console.error("❌ Customer email failed", err)
-    );
-  }
-</script> -->
-
-
-   <script type="module" src="checkout.js"></script>
 </body>
 </html>
