@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard - Order</title>
+  
+    <style>
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+    th { background: #f4f4f4; }
+    button { padding: 5px 10px; margin: 2px; cursor: pointer; }
+    button:hover {transform: translateY(-3px); 
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);}
+  </style>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 style="text-align:center; margin: 20px;">📊 Admin Dashboard</h1>
+
+<!-- 02 -->
+
+ <h2>📋 Orders List</h2>
+<input type="text" id="searchOrderId" placeholder="Search by Order ID">
+<button onclick="searchOrder()">Search</button>
+
+<table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Payment</th>
+        <th>Status</th>
+        <th>Update</th>
+      </tr>
+    </thead>
+    <tbody id="ordersTable"></tbody>
+  </table>
+
+<script>
+async function loadOrders() {
+  const res = await fetch("http://localhost:3000/api/orders/all"); // needs backend route for all orders
+  const data = await res.json();
+
+  if (data.success) {
+    const table = document.getElementById("ordersTable");
+    table.innerHTML = "";
+    data.orders.forEach(order => {
+      table.innerHTML += `
+        <tr>
+          <td>${order.orderId}</td>
+          <td>${order.name}</td>
+          <td>${order.email}</td>
+          <td>${order.status}</td>
+          <td>${order.items.map(i => i.name + " x " + i.quantity).join(", ")}</td>
+        </tr>
+      `;
+    });
+  }
+}
+
+async function searchOrder() {
+  const orderId = document.getElementById("searchOrderId").value;
+  if (!orderId) return;
+
+  const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+  const data = await res.json();
+
+  const table = document.getElementById("ordersTable");
+  table.innerHTML = "";
+
+  if (data.success) {
+    const o = data.order;
+    table.innerHTML = `
+      <tr>
+        <td>${o.orderId}</td>
+        <td>${o.name}</td>
+        <td>${o.email}</td>
+        <td>${o.status}</td>
+        <td>${o.items.map(i => i.name + " x " + i.quantity).join(", ")}</td>
+      </tr>
+    `;
+  } else {
+    table.innerHTML = "<tr><td colspan='5'>❌ Order not found</td></tr>";
+  }
+}
+
+loadOrders();
+</script>
+
+<script type="module" src="admin.js"></script>
+
+</body>
+</html>

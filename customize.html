@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customize Your Gift - Gift-e-Memories</title>
+  <style>
+    body {
+      background: #fffaf4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    h1 {
+      color: #b76e58;
+    }
+    p {
+      color: #444;
+      margin-bottom: 25px;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    /* button {
+      background-color: #b76e58;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #a25a45;
+    } */
+
+/* Default button style */
+button {
+  background-color: #ce8e73;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+button:hover {
+  background-color: #ce8e73;   /* thoda dark shade */
+  transform: translateY(-3px); /* halka upar uth jaega */
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.2); /* shadow */
+}
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Customize Your Gift</h1>
+    <p>Describe your personalized message or upload your photo to print on a mug, frame or card.</p>
+
+    <form id="customForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea name="customMessage" placeholder="Your custom message..." required></textarea>
+      <input type="file" name="photo">
+      <button type="submit">Submit Customization</button>
+    </form>
+  </div>
+</body>
+</html>

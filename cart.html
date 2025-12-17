@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 style="text-align:center; margin-top: 20px;">🛒 Your Cart</h1>
+  <div class="cart-container" style="padding: 40px;"></div>
+
+  <script>
+  const cartContainer = document.querySelector('.cart-container');
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  function saveAndReload() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    location.reload();
+  }
+
+  if (cart.length === 0) {
+    cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+  } else {
+    let total = 0;
+    cart.forEach((item, index) => {
+      total += item.price * item.qty;
+      cartContainer.innerHTML += `
+        <div class="product-card">
+          <img src="${item.image}" alt="${item.name}">
+          <h3>${item.name}</h3>
+          <p>Price: ₹${item.price}</p>
+          <p>
+            Quantity:
+            <button onclick="updateQty(${index}, -1)">−</button>
+            ${item.qty}
+            <button onclick="updateQty(${index}, 1)">+</button>
+          </p>
+          <p>Subtotal: ₹${item.price * item.qty}</p>
+          <button onclick="removeItem(${index})">Remove</button>
+        </div>
+      `;
+    });
+
+    cartContainer.innerHTML += `<h3 style="margin-top: 30px;">Total: ₹${total}</h3>`;
+    cartContainer.innerHTML += `<a href="checkout.html"><button style="margin-top: 20px;">Proceed to Checkout</button></a>`;
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    saveAndReload();
+  }
+
+  function updateQty(index, change) {
+    cart[index].qty += change;
+    if (cart[index].qty <= 0) cart.splice(index, 1);
+    saveAndReload();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order - Gift-e-Memories</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #ff7f50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #e5673e;
+      transform: translateY(-3px); 
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+    }
+    .order-details {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f1f1f1;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📦 Track Your Order</h2>
+    <form id="trackForm">
+      <input type="text" id="orderId" placeholder="Enter your Order ID" required>
+      <button type="submit">Track</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+document.getElementById("trackForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const orderId = document.getElementById("orderId").value;
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "⏳ Fetching order details...";
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+    const data = await res.json();
+
+    if (data.success) {
+      const order = data.order;
+      resultDiv.innerHTML = `
+        ✅ Order Found <br>
+        <b>Order ID:</b> ${order.orderId} <br>
+        <b>Name:</b> ${order.name} <br>
+        <b>Email:</b> ${order.email} <br>
+        <b>Address:</b> ${order.address} <br>
+        <b>Payment:</b> ${order.payment} <br>
+        <b>Status:</b> ${order.status} <br>
+        <b>Items:</b>
+        <ul>
+          ${order.items.map(i => `<li>${i.name} - ${i.quantity} x ₹${i.price}</li>`).join("")}
+        </ul>
+      `;
+    } else {
+      resultDiv.innerHTML = "❌ Order not found";
+    }
+  } catch (err) {
+    console.error(err);
+    resultDiv.innerHTML = "⚠️ Error fetching order details";
+  }
+});
+
+// Auto-fill from URL
+const params = new URLSearchParams(window.location.search);
+if (params.get("orderId")) {
+  document.getElementById("orderId").value = params.get("orderId");
+  document.getElementById("trackForm").dispatchEvent(new Event("submit"));
+}
+  </script>
+</body>
+</html>
