@@ -4,7 +4,7 @@
     "name": "Custom Mug",
     "category": "Mugs",
     "price": 299,
-    "image": "mug.jpeg",
+    "image": "client/src/assets/images/mug.jpeg",
     "description": "Personalized ceramic mug with custom photo and message."
   },
   {
@@ -12,7 +12,7 @@
     "name": "LED Photo Frame",
     "category": "LED Frames",
     "price": 599,
-    "image": "led.jpeg",
+    "image": "client/src/assets/images/led.jpeg",
     "description": "Elegant LED photo frame perfect for gifting."
   },
   {
@@ -20,7 +20,7 @@
     "name": "Collage Frame",
     "category": "Collage Frames",
     "price": 499,
-    "image": "collage.jpeg",
+    "image": "client/src/assets/images/collage.jpeg",
     "description": "Memory collage with 6 customizable photo slots."  
   },
   {
@@ -28,7 +28,7 @@
     "name": "Anniversary Gift Mug",
     "category": "Mugs",
     "price": 349,
-    "image": "Anniversary-Gift-Mug.jpeg",
+    "image": "client/src/assets/images/Anniversary-Gift-Mug.jpeg",
     "description": "A special mug for your anniversary celebration."
   },
   {
@@ -36,7 +36,7 @@
     "name": "Mini frame",
     "category": "Collage Frames",
     "price": 399,
-    "image": "frame.jpeg",
+    "image": "client/src/assets/images/frame.jpeg",
     "description": "A special mug for your anniversary celebration."
   },
   {
@@ -44,7 +44,7 @@
     "name": "MOM",
     "category": "Mugs",
     "price": 349,
-    "image": "mom.jpeg",
+    "image": "client/src/assets/images/mom.jpeg",
     "description": "A special mug for your happy mother's day celebration."
   },
   {
@@ -52,7 +52,7 @@
     "name": "Partner",
     "category": "Collage Frames",
     "price": 549,
-    "image": "partner.jpeg",
+    "image": "client/src/assets/images/partner.jpeg",
     "description": "A special collage frame for your happy moments celebration."
   },
    {
@@ -60,7 +60,7 @@
     "name": "Birthday special",
     "category": "LED Frames",
     "price": 599,
-    "image": "Birthday special.jpeg",
+    "image": "client/src/assets/images/Birthday special.jpeg",
     "description": "A special led collage frame for your happy moments celebration."
   },
   {
@@ -68,7 +68,7 @@
     "name": "poki mugs",
     "category": "Mugs",
     "price": 349,
-    "image": "poki mugs.jpeg",
+    "image": "client/src/assets/images/poki mugs.jpeg",
     "description": "A special mug for your special day celebration."
   },
   {
@@ -76,7 +76,7 @@
     "name": "bestie",
     "category": "Collage Frames",
     "price": 449,
-    "image": "bestie.jpeg",
+    "image": "client/src/assets/images/bestie.jpeg",
     "description": "A special collage frame for your happy moments with close friend celebration."
   }
 ]
