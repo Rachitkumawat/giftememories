@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="assets/favicon/site.webmanifest">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsive File Upload</title>
+
+<style>
+/* ================= RESET ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+/* ================= MAIN WRAPPER ================= */
+.responsive-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* ================= BASIC FILE INPUT ================= */
+.basic-upload {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.basic-upload input {
+  width: 100%;
+}
+
+/* ================= CUSTOM FILE ================= */
+.custom-file {
+  width: 100%;
+  max-width: 320px;
+}
+
+.custom-file-input {
+  display: none;
+}
+
+.custom-file-label {
+  display: block;
+  padding: 12px;
+  background: #eee;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* ================= UIVERSE STYLE UPLOAD ================= */
+.custum-file-upload {
+  width: 100%;
+  max-width: 320px;
+  min-height: 200px;
+  border: 2px dashed #b76e58;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.custum-file-upload svg {
+  height: 70px;
+}
+
+.custum-file-upload span {
+  color: #444;
+}
+
+/* ================= CARD UPLOAD ================= */
+.container {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.header {
+  border: 2px dashed royalblue;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+.header svg {
+  height: 80px;
+}
+
+.footer {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(0,110,255,0.1);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer p {
+  flex: 1;
+  text-align: center;
+}
+
+/* ================= IMAGE PREVIEW ================= */
+.upload-container {
+  width: 100%;
+  max-width: 320px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.upload-button {
+  background: indigo;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+#preview {
+  margin-top: 15px;
+  width: 100%;
+  max-width: 250px;
+  border-radius: 10px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="responsive-wrapper">
+
+  <!-- BASIC FILE -->
+  <div class="basic-upload">
+    <label>Select File</label><br><br>
+    <input type="file">
+  </div>
+
+  <!-- MULTIPLE FILE -->
+  <div class="basic-upload">
+    <label>Select Multiple Files</label><br><br>
+    <input type="file" multiple>
+  </div>
+
+  <!-- CUSTOM FILE -->
+  <div class="custom-file">
+    <input type="file" id="customFile" class="custom-file-input">
+    <label for="customFile" class="custom-file-label">Choose File</label>
+  </div>
+
+  <!-- UIVERSE UPLOAD -->
+  <label class="custum-file-upload">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 2v12m0 0l-4-4m4 4l4-4" stroke="#000" stroke-width="2" fill="none"/>
+    </svg>
+    <span>Click to Upload Image</span>
+    <input type="file" hidden>
+  </label>
+
+  <!-- CARD UPLOAD -->
+  <div class="container">
+    <div class="header">
+      <p>Browse file to upload</p>
+    </div>
+    <label class="footer">
+      <p>No file selected</p>
+      <input type="file" hidden>
+    </label>
+  </div>
+
+  <!-- IMAGE PREVIEW -->
+  <div class="upload-container">
+    <label for="upload-input" class="upload-button">Upload Image</label>
+    <input id="upload-input" type="file" accept="image/*" hidden>
+    <img id="preview">
+  </div>
+
+</div>
+
+<script>
+document.getElementById("upload-input").addEventListener("change", function(e) {
+  const preview = document.getElementById("preview");
+  preview.src = URL.createObjectURL(e.target.files[0]);
+});
+</script>
+
+</body>
+</html>

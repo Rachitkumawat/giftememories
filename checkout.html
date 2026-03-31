@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+<link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="assets/favicon/site.webmanifest">
+  <meta charset="UTF-8">
+  <title>Gift-e-Memories - Checkout</title>
+
+  <!-- Responsive Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+  <style>
+    /* ===== GLOBAL ===== */
+    body {
+      background-color: #fffaf5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ===== CHECKOUT CARD ===== */
+    .checkout-container {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 30px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+      max-width: 450px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #b76e58;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+
+    /* ===== FORM ===== */
+    label {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.95rem;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      margin-bottom: 18px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-sizing: border-box;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #b76e58;
+      box-shadow: 0 0 0 2px rgba(183,110,88,0.2);
+    }
+
+    /* ===== BUTTON ===== */
+    button {
+      background-color: #b76e58;
+      color: #fff;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a25e4c;
+      transform: translateY(-3px);
+      box-shadow: 0px 8px 18px rgba(0,0,0,0.2);
+    }
+
+    /* ===== CONFIRMATION BOX ===== */
+    #confirmation {
+      margin-top: 20px;
+      background: #f4fdf7;
+      border: 1px solid #cde9d6;
+      padding: 15px;
+      border-radius: 8px;
+      display: none;
+      font-size: 0.9rem;
+    }
+
+    #confirmation a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #b76e58;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 600px) {
+      body {
+        padding: 15px;
+        align-items: flex-start;
+      }
+
+      .checkout-container {
+        padding: 22px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      input, textarea, select {
+        font-size: 0.9rem;
+        padding: 11px;
+      }
+
+      button {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* ===== TABLET ===== */
+    @media (min-width: 600px) and (max-width: 900px) {
+      .checkout-container {
+        max-width: 500px;
+      }
+    }
+
+    /* ===== LARGE SCREENS ===== */
+    @media (min-width: 1200px) {
+      .checkout-container {
+        max-width: 480px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="checkout-container">
+    <h2>🧾 Checkout</h2>
+
+    <form id="orderForm">
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <textarea id="address" placeholder="Delivery Address" rows="3" required></textarea>
+
+      <select id="payment">
+        <option value="COD">Cash on Delivery</option>
+        <option value="Prepaid">Prepaid</option>
+      </select>
+
+      <button type="submit">Place Order</button>
+    </form>
+
+    <div id="confirmation"></div>
+  </div>
+
+  <!-- ===== ORDER SCRIPT ===== -->
+  <script>
+    document.getElementById("orderForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const address = document.getElementById("address").value;
+      const payment = document.getElementById("payment").value;
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      const orderData = { name, email, address, payment, items: cart };
+
+      try {
+        const res = await fetch("http://localhost:3000/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(orderData)
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          localStorage.removeItem("cart");
+
+          const confirmation = document.getElementById("confirmation");
+          confirmation.style.display = "block";
+          confirmation.innerHTML = `
+            <h3>✅ Order placed successfully!</h3>
+            <p><b>Your Order ID:</b> ${data.orderId}</p>
+            <a href="track-order.html?orderId=${data.orderId}">📦 Track Your Order</a>
+          `;
+        } else {
+          alert("❌ Failed to place order.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("⚠️ Something went wrong.");
+      }
+    });
+  </script>
+
+</body>
+</html>
